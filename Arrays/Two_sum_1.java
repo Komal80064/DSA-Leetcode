@@ -20,7 +20,7 @@ class Solution{
             if(map.containsKey(remain))
                 return new int[]{map.get(remain),i};
             
-            map.put(nums[i],i);
+            map.put(nums[i], i);
         }
 
         return new int[0];
