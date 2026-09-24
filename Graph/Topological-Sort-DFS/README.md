@@ -1,0 +1,2 @@
+The idea is to perform a DFS traversal starting from every unvisited vertex (from 0 to n − 1).
+For each DFS call, we first explore all unvisited neighbors of the current node. Once the recursive calls for all its neighbors are complete, we start pushing these nodes into a stack while backtracking. After all vertices are processed, we pop elements from the stack one by one into a list — this gives a valid topological ordering, as each node is placed before all nodes it points to.
