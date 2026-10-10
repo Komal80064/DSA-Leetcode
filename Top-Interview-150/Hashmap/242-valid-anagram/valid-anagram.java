@@ -14,6 +14,7 @@ class Solution {
         // return true;
 
         // ****Approach - 02 (Using HashMap)
+        if(s.length() != t.length()) return false;
         Map<Character, Integer> map = new HashMap<>();
         for(char c : s.toCharArray()){
             map.put(c, map.getOrDefault(c, 0)+1);
