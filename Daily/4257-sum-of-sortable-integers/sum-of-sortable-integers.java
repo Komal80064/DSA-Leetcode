@@ -1,22 +1,45 @@
 class Solution {
+    private boolean check(int[] nums, int k) {
+        int n = nums.length, prev = 0;
+
+        for (int i = 0; i < n; i += k) {
+            int cnt = 0;
+            int mini = nums[i], maxi = nums[i];
+
+            for (int j = i; j < i + k - 1; j++) {
+                if (nums[j] > nums[j + 1])
+                    cnt++;
+
+                mini = Math.min(mini, nums[j + 1]);
+                maxi = Math.max(maxi, nums[j + 1]);
+            }
+
+            if (nums[i + k - 1] > nums[i])
+                cnt++;
+
+            if (cnt > 1 || prev > mini)
+                return false;
+
+            prev = maxi;
+        }
+
+        return true;
+    }
+
     public int sortableIntegers(int[] nums) {
-        int n = nums.length;
+        int n = nums.length, ans = 0;
 
-        int[] desc = new int[n];  // desc[i]: number of descents nums[j] > nums[j + 1] with j < i
-        for (int i = 1; i < n; i++) desc[i] = desc[i - 1] + (nums[i - 1] > nums[i] ? 1 : 0);
-        int[] premax = nums.clone(), sufmin = nums.clone();
-        Arrays.parallelPrefix(premax, Math::max);  // premax[i]: max of nums[0..i]
-        for (int i = n - 2; i >= 0; i--) sufmin[i] = Math.min(sufmin[i], sufmin[i + 1]);  // sufmin[i]: min of nums[i..n-1]
-        boolean[] cut = new boolean[n];  // cut[m]: nums[0..m-1] holds exactly the m smallest values
-        cut[0] = true;
-        for (int m = 1; m < n; m++) cut[m] = premax[m - 1] <= sufmin[m];
+        for (int k = 1; k * k <= n; k++) {
+            if (n % k == 0) {
+                if (check(nums, k))
+                    ans += k;
 
-        BiPredicate<Integer, Integer> rotatable = (l, r) ->  // nums[l..r] is a rotated sorted run: at most one cyclic descent
-            desc[r] - desc[l] + (nums[r] > nums[l] ? 1 : 0) <= 1;
-        IntPredicate sortable = k ->  // every block starts at a valid cut and can be rotated into order
-            IntStream.iterate(0, l -> l < n, l -> l + k).allMatch(l -> cut[l] && rotatable.test(l, l + k - 1));
+                int other = n / k;
+                if (other != k && check(nums, other))
+                    ans += other;
+            }
+        }
 
-        IntStream divisors = IntStream.rangeClosed(1, n).filter(k -> n % k == 0);
-        return divisors.filter(sortable).sum();
+        return ans;
     }
 }
