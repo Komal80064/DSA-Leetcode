@@ -7,9 +7,9 @@ class Solution {
             r += w;
         }
 
-        while(l<=r){
+        while(l<r){
             int mid = (l+r)/2;
-            if(isValid(mid, weights, days)) r = mid-1;
+            if(isValid(mid, weights, days)) r = mid;
             else l = mid+1;
         }
         return l;
