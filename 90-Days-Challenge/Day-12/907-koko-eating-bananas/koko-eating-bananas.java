@@ -5,7 +5,7 @@ class Solution {
         for(int pile : piles){
             r = Math.max(r, pile);
         }
-
+        if(piles.length == h) return r;
         while(l<=r){
             int mid = (l+r)/2;
             if(canEat(mid, piles , h)){
