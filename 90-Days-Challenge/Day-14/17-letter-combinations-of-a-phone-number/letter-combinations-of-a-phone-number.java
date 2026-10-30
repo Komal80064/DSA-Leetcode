@@ -6,31 +6,23 @@ class Solution {
             return res;
         }
         
-        Map<Character, String> digitToLetters = new HashMap<>();
-        digitToLetters.put('2', "abc");
-        digitToLetters.put('3', "def");
-        digitToLetters.put('4', "ghi");
-        digitToLetters.put('5', "jkl");
-        digitToLetters.put('6', "mno");
-        digitToLetters.put('7', "pqrs");
-        digitToLetters.put('8', "tuv");
-        digitToLetters.put('9', "wxyz");
+        String[] map = {"", "", "abc", "def", "ghi", "jkl","mno","pqrs","tuv","wxyz"};
         
-        backtrack(digits, 0, new StringBuilder(), res, digitToLetters);
+        backtrack(digits, 0, new StringBuilder(), res, map);
         
         return res;        
     }
 
-    private void backtrack(String digits, int idx, StringBuilder comb, List<String> res, Map<Character, String> digitToLetters) {
+    private void backtrack(String digits, int idx, StringBuilder comb, List<String> res, String[] map) {
         if (idx == digits.length()) {
             res.add(comb.toString());
             return;
         }
         
-        String letters = digitToLetters.get(digits.charAt(idx));
+        String letters = map[digits.charAt(idx)-'0'];
         for (char letter : letters.toCharArray()) {
             comb.append(letter);
-            backtrack(digits, idx + 1, comb, res, digitToLetters);
+            backtrack(digits, idx + 1, comb, res, map);
             comb.deleteCharAt(comb.length() - 1);
         }
     }    
