@@ -11,11 +11,9 @@ class Solution {
         }
 
         for(int i = start; i< s.length();i++){
-            String sub = s.substring(start, i+1);
-
-            if(isPalindrome(sub)){
+            if(isPalindrome(s,start,i)){
                 //Pick
-                curr.add(sub);
+                curr.add(s.substring(start,i+1));
                 // Explore
                 backtrack(i+1, curr, res, s);
                 // Backtrack
@@ -23,9 +21,7 @@ class Solution {
             }
         }
     }
-    private boolean isPalindrome(String sub){
-        int l = 0;
-        int r = sub.length()-1;
+    private boolean isPalindrome(String sub,int l, int r){
         while(l<r){
             if(sub.charAt(l) != sub.charAt(r)) return false;
             r--;
